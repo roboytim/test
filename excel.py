@@ -15,7 +15,7 @@ path = add[0]
 #Excel文件路径
 path = r'/Users/roboytim/Desktop/work/exceltest/test.nmon.xlsx'
 #梯度数量
-num = 10
+num = 3
 #实例化工作表，打开制定excel文件
 book = xlrd.open_workbook(path)
 #打印改文件的所有工作表名称

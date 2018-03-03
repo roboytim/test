@@ -40,13 +40,20 @@ if OS == 'Linux':
 else:
     MEMsheet = book.sheet_by_name('MEMNEW')
 DISKsheet = book.sheet_by_name('DISKBUSY')
-print (DISKsheet.nrows,DISKsheet.ncols)
+#print (DISKsheet.nrows,DISKsheet.ncols)
+#获取DISKBUSY工作表中有数据的列数
+DISKend=0
+for j in range(DISKsheet.ncols):
+    #print (DISKsheet.cell_value(0,j))
+    if DISKsheet.cell_value(0,j)=='':
+        break
+    DISKend=DISKend+1
+DISKindex = DISKend-1
 #获取DISKBUSY中总和最大的列
 DISKmax=0
-for i in range(DISKsheet.ncols-1):
+for i in range(DISKindex-1):
     DISKtotal = 0
-    for j in range(DISKsheet.nrows-7):
-        print (type(DISKsheet.cell_value(j+1,i+1)))
+    for j in range(DISKsheet.nrows-6):
         DISKtotal = DISKtotal + DISKsheet.cell_value(j+1,i+1)
         if DISKtotal > DISKmax:
             DISKmax = DISKtotal
@@ -72,11 +79,10 @@ for j in range(num):
         # 打印内存使用率 公式为：(memtotal-memfree-cached-buffers)/memtotal*100
         MEM_sum = MEM_sum + (MEMsheet.cell_value(rownum * j + i + 1, 1) - MEMsheet.cell_value(rownum * j + i + 1, 5) - MEMsheet.cell_value(rownum * j + i + 1,10) - MEMsheet.cell_value(rownum * j + i + 1, 13)) / MEMsheet.cell_value(rownum * j + i + 1, 1) * 100
         DISK_sum = DISK_sum + DISKsheet.cell_value(rownum * j + i + 1,DISKclos)
-    CPU.append(str(CPU_sum))
-    MEM.append(str(MEM_sum))
-    DISK.append(str(DISK_sum))
-
+    CPU.append(CPU_sum/rownum)
+    MEM.append(MEM_sum/rownum)
+    DISK.append(DISK_sum/rownum)
+print("梯度\tCPU\tMEM\tDISKBUSY")
 for i in range(len(CPU)):
-    print (i,CPU[i])
-    print (i,MEM[i])
-    print (i,DISK[i])
+    #print (type(CPU[i]))
+    print ("%d\t%.2f\t%.2f\t%.2f" % (i,CPU[i],MEM[i],DISK[i]))

@@ -1,4 +1,5 @@
 import requests
+from bs4 import  BeautifulSoup
 res = requests.get('http://news.sina.com.cn/china/')
 #输出响应码200
 print (res)

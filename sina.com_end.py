@@ -43,4 +43,12 @@ for i in range(1,3):
 df = pandas.DataFrame(news_total)
 #输出前十条新闻，不填数据，默认输出前五条
 #print(df.head(10))
+#保存新闻到excel
 df.to_excel(r'C:\Users\Tim.Robert\Desktop\test\news.xlsx')
+#使用sqlite存储读取新闻
+import sqlite3
+with sqlite3.connect(r'C:\Users\Tim.Robert\Desktop\test\news.sqlite') as db:
+    df.to_sql('news',con = db)
+with sqlite3.connect('news.sqlite') as db:
+    df2 = pandas.read_sql_query('select * from news',con = db)
+print (df2)

@@ -3,17 +3,8 @@
 import xlrd
 #导入Excel写入模块
 import xlwt
-'''
-import sys
-if __name__=='__main__':
-    print ()
-add = []
-for a in range(1,len(sys.argv)):
-	add.append(str(sys.argv[a]))
-path = add[0]
-'''
 #Excel文件路径
-path = r'C:\Users\Tim.Robert\Desktop\test\localhost_150706_1651.nmon.xlsx'
+path = r'/Users/roboytim/Desktop/work/exceltest/test.nmon.xlsx'
 #梯度数量
 num = 2
 #实例化工作表，打开制定excel文件

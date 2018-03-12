@@ -6,8 +6,9 @@ import re
 import pandas
 #----------------------------------------------------------------------------
 #获取新闻评论数的方法
-commentURL='http://comment5.news.sina.com.cn/page/info?version=1&format=json&channel=gn&newsid=comos-{}&group=undefined&compress=0&ie=utf-8&oe=utf-8&page=1&page_size=3&t_size=3&h_size=3&thread=1'
+
 def getCommentCounts(newsurl):
+    commentURL = 'http://comment5.news.sina.com.cn/page/info?version=1&format=json&channel=gn&newsid=comos-{}&group=undefined&compress=0&ie=utf-8&oe=utf-8&page=1&page_size=3&t_size=3&h_size=3&thread=1'
     m = re.search('doc-i(.*).shtml',newsurl)
     newsid = m.group(1)
     comments = requests.get(commentURL.format(newsid))

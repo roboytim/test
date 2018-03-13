@@ -1,6 +1,7 @@
 import requests
 import pandas
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 def getSummary(url):
     res = requests.get(url)
@@ -15,9 +16,11 @@ def MovieDetail(url):
     res = requests.get(url)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text,'html.parser')
+    result['url'] = url
     result['title']=soup.select('#content span')[0].text.strip()
     result['score']=soup.select('.ll')[1].text
     result['summary']=getSummary(url)
+
     return result
 def movieList(url):
     moviedetails=[]
@@ -32,4 +35,4 @@ movietotal=[]
 movietotal.extend(movieList(url))
 df = pandas.DataFrame(movietotal)
 #print(df.head())
-df.sort_values(by='score',ascending=False).to_excel(r'/Users/roboytim/Desktop/movies.xlsx')
+df.sort_values(by='score',ascending=False).to_excel(r'/Users/roboytim/Desktop/movies'+datetime.now().strftime('%Y%m%d_%H%M')+'.xlsx')

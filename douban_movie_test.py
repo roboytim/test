@@ -1,6 +1,7 @@
 import requests
 import json
 import pandas
+import demjson
 from bs4 import BeautifulSoup
 
 def getSummary(url):
@@ -16,22 +17,21 @@ def MovieDetail(url):
     res = requests.get(url)
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text,'html.parser')
-    result['title']=soup.select('#content span')[0].text
+    result['title']=soup.select('#content span')[0].text.strip()
     result['score']=soup.select('.ll')[1].text
     result['summary']=getSummary(url)
     return result
 def movieList(url):
     moviedetails=[]
     res=requests.get(url)
-    jd = json.loads(res.text)
-    for i in range(len(jd['subjects'])):
-        moviedetails.append(MovieDetail(jd['subjects'][i]['url']))
+    #resend=demjson.encode(res.text)
+    soup=BeautifulSoup(res.text,'html.parser')
+    for i in range(len(soup.select('.pl2 a'))):
+        moviedetails.append(MovieDetail(soup.select('.pl2 a')[i]['href']))
     return moviedetails
-url='https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=20&page_start={}'
+url='https://movie.douban.com/chart'
 movietotal=[]
-for i in range(1,3):
-    movieurl = url.format(20*i)
-    moviearry = movieList(movieurl)
-    movietotal.extend(moviearry)
+movietotal.extend(movieList(url))
 df = pandas.DataFrame(movietotal)
-print(df.sort_values(by='score'))
+#print(df.head())
+df.sort_values(by='score',ascending=False).to_excel(r'/Users/roboytim/Desktop/movies.xlsx')

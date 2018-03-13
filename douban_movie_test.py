@@ -1,7 +1,5 @@
 import requests
-import json
 import pandas
-import demjson
 from bs4 import BeautifulSoup
 
 def getSummary(url):

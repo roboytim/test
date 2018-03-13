@@ -34,4 +34,4 @@ for i in range(1,3):
     moviearry = movieList(movieurl)
     movietotal.extend(moviearry)
 df = pandas.DataFrame(movietotal)
-print(len(df))
+print(df.sort_values(by='score'))
